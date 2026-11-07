@@ -20,6 +20,16 @@ coin.color("gold")
 coin.penup()
 coin.goto(random.randint(-250, 250), random.randint(-250, 250))
 
+# 8. Create a score display
+score = 0
+
+# Create a text turtle for the score
+score_display = turtle.Turtle()
+score_display.hideturtle()
+score_display.penup()
+score_display.color("navy")
+score_display.goto(0, 260)
+
 # 3. Movement
 def move_up():
   player.setheading(90)  # Face North (Up)
@@ -45,9 +55,19 @@ def move_right():
 
 # 6. Check for collision
 def check_collision():
+  global score
   # If turtle gets close to the coin, move the coin to a new spot!
   if player.distance(coin) < 20:
+    score += 1
+    update_score()
     coin.goto(random.randint(-250, 250), random.randint(-250, 250))
+
+# 9. Update the score
+def update_score():
+  score_display.clear()
+  score_display.write(
+      "Score: " + str(score), align="center", font=("Arial", 16, "bold")
+  )
 
 # 4. Keyboard Bindings
 screen.listen()
@@ -55,6 +75,8 @@ screen.onkey(move_up, "Up")
 screen.onkey(move_down, "Down")
 screen.onkey(move_left, "Left")
 screen.onkey(move_right, "Right")
+
+update_score()
 
 # Keep the window open
 turtle.done()
